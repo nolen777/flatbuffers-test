@@ -1,0 +1,5 @@
+.clwb
+bazel-bin
+bazel-flatbuffers-test
+bazel-out
+bazel-testlogs

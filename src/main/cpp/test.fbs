@@ -1,0 +1,9 @@
+namespace flatbuffers_test;
+
+struct TestStruct {
+    value:int8;
+}
+
+table TestTable {
+    values:[TestStruct];
+}
