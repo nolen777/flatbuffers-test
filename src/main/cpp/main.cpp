@@ -11,28 +11,31 @@ using namespace flatbuffers_test;
 int main() {
   printf("Hello, World!\n");
 
-  std::vector<TestStruct> vec{};
-  for (int i=1; i<10; i++) {
-    TestStruct ts;
-    ts.mutate_value(i);
-    vec.push_back(ts);
+  std::vector<Coords> vec{};
+  vec.reserve(10);
+  for (int i=5; i<15; i++) {
+    vec.emplace_back(i, 15 - i);
   }
 
   flatbuffers::FlatBufferBuilder fbb;
 
-  auto structsOffset = fbb.CreateVectorOfStructs(vec);
+  auto coordsListOffset = fbb.CreateVectorOfStructs(vec);
 
-  flatbuffers_test::TestTableBuilder ttb(fbb);
-  ttb.add_values(structsOffset);
+  flatbuffers_test::StartingPositionListBuilder startingPositionListBuilder(fbb);
+  startingPositionListBuilder.add_positions(coordsListOffset);
+  auto startingPositionListOffset = startingPositionListBuilder.Finish();
 
-  auto testTableOffset = ttb.Finish();
-  fbb.Finish(testTableOffset);
+  flatbuffers_test::HexMapBuilder hexMapBuilder(fbb);
+  hexMapBuilder.add_defender_starting_positions(startingPositionListOffset);
 
-  size_t size, offset;
-  auto buffer = fbb.ReleaseRaw(size, offset);
-  auto ptr = (TestTable*)flatbuffers::GetRoot<TestTable>(buffer + offset);
+  fbb.Finish(hexMapBuilder.Finish());
 
-  for (const TestStruct* entry : *ptr->values()) {
-    printf("%d\n", entry->value());
+//  size_t size, offset;
+//  auto buffer = fbb.ReleaseRaw(size, offset);
+  auto ptr = flatbuffers_test::GetHexMap(fbb.GetBufferPointer());
+//  auto ptr = (HexMap*)flatbuffers::GetRoot<HexMap>(buffer);
+
+  for (const Coords* entry : *ptr->defender_starting_positions()->positions()) {
+    printf("%d %d\n", entry->row(), entry->column());
   }
 }

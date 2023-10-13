@@ -9,7 +9,18 @@ cc_binary(
     name = "main",
     srcs = ["main.cpp"],
     deps = [
-        "test_fbs",
+        ":test_fbs",
         "@com_github_google_flatbuffers//:flatbuffers",
+    ],
+)
+
+cc_test(
+    name = "test",
+    srcs = ["test.cpp"],
+    deps = [
+        ":test_fbs",
+        "@com_github_google_flatbuffers//:flatbuffers",
+        "@com_github_gtest//:gtest",
+        "@com_github_gtest//:gtest_main",
     ],
 )

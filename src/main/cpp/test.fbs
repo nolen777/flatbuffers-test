@@ -1,9 +1,12 @@
 namespace flatbuffers_test;
 
-struct TestStruct {
-    value:int8;
+struct Coords {
+    row:int8;
+    column:int8;
 }
 
-table TestTable {
-    values:[TestStruct];
+table HexMap {
+  defender_starting_positions:[Coords];
 }
+
+root_type HexMap;
