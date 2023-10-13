@@ -15,6 +15,10 @@ class DummyTest : public ::testing::Test {};
 using std::vector;
 
 TEST_F(DummyTest, BuildBasicMap_hasCorrectStartingPositions) {
+  // This one succeeds:
+  //const vector<Coords> defenderStartingPositions = { Coords(2, 3), Coords(2, 4), Coords(2, 5), Coords(5, 1) };
+
+  // This one fails:
   const vector<Coords> defenderStartingPositions = { Coords(2, 3), Coords(2, 4), Coords(2, 5) };
 
   flatbuffers::FlatBufferBuilder fbb;
@@ -28,10 +32,6 @@ TEST_F(DummyTest, BuildBasicMap_hasCorrectStartingPositions) {
   auto hexMap = flatbuffers_test::GetHexMap(fbb.GetBufferPointer());
 
   EXPECT_EQ(defenderStartingPositions.size(), hexMap->defender_starting_positions()->size());
-
-  for (const Coords* entry : *hexMap->defender_starting_positions()) {
-    printf("%d %d\n", entry->row(), entry->column());
-  }
 
   for (int i = 0; i < defenderStartingPositions.size(); i++) {
     EXPECT_EQ(

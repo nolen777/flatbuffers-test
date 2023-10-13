@@ -5,20 +5,17 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 #flatbuffers_version = "2.0.8"
 #flatbuffers_sha = "80af25a873bebba60067a1529c03edcc5fc5486c3402354c03a80a5279da5dca"
 
-flatbuffers_version = "23.3.3"
+# FAIL:
+flatbuffers_version = "72aa85a759e997d68b0ff25d16f5ad27fea045ae"
 
-flatbuffers_sha = "f8c453bc8392e6bb0f2a4ff1b534238273d7dc9d980177e5d67f6df4c7e4a6a7"
-
-#flatbuffers_version = "2.0.8"
-#
-#flatbuffers_sha = "80af25a873bebba60067a1529c03edcc5fc5486c3402354c03a80a5279da5dca"
+# SUCCESS:
+#flatbuffers_version = "bfceebb7fb5fb6a8b12471022aa9e3e519c18412"
 
 http_archive(
     name = "com_github_google_flatbuffers",
-    sha256 = flatbuffers_sha,
     strip_prefix = "flatbuffers-%s" % flatbuffers_version,
     urls = [
-        "https://github.com/google/flatbuffers/archive/v%s.zip" % flatbuffers_version,
+        "https://github.com/google/flatbuffers/archive/%s.zip" % flatbuffers_version,
     ],
 )
 
